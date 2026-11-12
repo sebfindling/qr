@@ -1,333 +1,92 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador QR</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f8f9fa;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            width: 100%;
-            max-width: 500px;
-            display: grid;
-            grid-template-columns: 1fr 200px;
-            gap: 30px;
-            align-items: start;
-        }
-
-        .left-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 0;
-        }
-
-        .type-selector {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .type-btn {
-            padding: 6px 12px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            background: white;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-
-        .type-btn:hover {
-            border-color: #007bff;
-        }
-
-        .type-btn.active {
-            background: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        .input-container {
-            position: relative;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.2s;
-            font-family: inherit;
-            resize: none;
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-
-        .qr-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        #qrcode {
-            width: 200px;
-            height: 200px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fafafa;
-            color: #999;
-            font-size: 12px;
-	    z-index:9999;
-        }
-
-        .download-btn {
-            padding: 8px 16px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            visibility: hidden;
-        }
-
-        .download-btn:hover {
-            background: #218838;
-        }
-
-        .multi-input {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 20px;
-            }
-            
-            .qr-container {
-                order: -1;
-            }
-            
-            #qrcode {
-                width: 150px;
-                height: 150px;
-            }
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:#f5f7fa;color:#202733;font:14px system-ui,-apple-system,Segoe UI,sans-serif}.container{width:min(100%,930px);display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:30px;padding:30px;background:white;border-radius:18px;box-shadow:0 8px 32px #152b4412}h1{font-size:25px;margin:0 0 8px}h2{font-size:13px;color:#687385;margin:18px 0 8px}.types{display:flex;flex-wrap:wrap;gap:7px}.type-btn{padding:7px 11px;border:1px solid #dce2eb;border-radius:20px;background:#fff;color:#303d50;cursor:pointer;font:inherit;font-size:12px}.type-btn:hover{border-color:#3478f6}.type-btn.active{background:#276af0;color:white;border-color:#276af0}.fields{display:grid;gap:11px;margin-top:20px}.field{display:grid;gap:5px}.field label{font-size:12px;font-weight:600;color:#4c586b}.field input,.field textarea,.field select{width:100%;border:1.5px solid #dce2eb;border-radius:8px;padding:10px;font:inherit;background:white;min-width:0}.field textarea{min-height:78px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{outline:0;border-color:#276af0}.field.check{display:flex;align-items:center;gap:8px}.field.check input{width:auto}.field.check label{font-weight:400}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.qr-panel{display:flex;flex-direction:column;align-items:center;gap:12px;position:sticky;top:24px;align-self:start}.qr-box{width:240px;min-height:240px;border:1px solid #e5e9ef;border-radius:12px;display:grid;place-items:center;padding:10px;background:white;color:#8c96a6;text-align:center;font-size:12px;overflow:hidden}.qr-box img{display:block;width:100%;height:auto;image-rendering:pixelated}.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.action{padding:9px 13px;border:0;border-radius:7px;background:#17814c;color:white;cursor:pointer;font:inherit;font-size:12px}.action.secondary{background:#eaf1ff;color:#215ac1}.action:disabled{opacity:.45;cursor:not-allowed}.hint{font-size:12px;color:#778292;text-align:center;line-height:1.5}.error{font-size:12px;color:#c12f39;text-align:center}.settings{width:100%;display:grid;gap:6px}.settings label{font-size:12px;color:#687385}.settings select{width:100%;padding:7px;border:1px solid #dce2eb;border-radius:7px;background:white}.hidden{display:none!important}@media(max-width:690px){body{padding:12px;display:block}.container{grid-template-columns:1fr;padding:20px;gap:22px}.qr-panel{position:static;grid-row:1}.qr-box{width:200px;min-height:200px}.two{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="left-panel">
-            <h1>Generador QR</h1>
-            
-            <div class="type-selector">
-                <button class="type-btn active" data-type="url">URL</button>
-                <button class="type-btn" data-type="text">Texto</button>
-                <button class="type-btn" data-type="email">Email</button>
-                <button class="type-btn" data-type="phone">Teléfono</button>
-                <button class="type-btn" data-type="sms">SMS</button>
-                <button class="type-btn" data-type="wifi">WiFi</button>
-            </div>
-
-            <div id="url-input" class="input-container">
-                <input type="text" placeholder="https://ejemplo.com" id="url">
-            </div>
-
-            <div id="text-input" class="input-container hidden">
-                <textarea placeholder="Tu texto aquí..." rows="3" id="text"></textarea>
-            </div>
-
-            <div id="email-input" class="input-container hidden">
-                <input type="email" placeholder="correo@ejemplo.com" id="email">
-            </div>
-
-            <div id="phone-input" class="input-container hidden">
-                <input type="tel" placeholder="+1234567890" id="phone">
-            </div>
-
-            <div id="sms-input" class="input-container hidden">
-                <div class="multi-input">
-                    <input type="tel" placeholder="Teléfono" id="sms-phone">
-                    <input type="text" placeholder="Mensaje" id="sms-text">
-                </div>
-            </div>
-
-            <div id="wifi-input" class="input-container hidden">
-                <input type="text" placeholder="Nombre WiFi" id="wifi-name" style="margin-bottom: 10px;">
-                <input type="text" placeholder="Contraseña" id="wifi-pass">
-            </div>
-        </div>
-
-        <div class="qr-container">
-            <div id="qrcode">Escribe algo para generar QR</div>
-            <button class="download-btn" id="download">Descargar</button>
-        </div>
-    </div>
-
-    <script>
-        let currentType = 'url';
-        let qrCodeInstance = null;
-        setTimeout(()=>url.focus(),300);
-
-        // Cambiar tipo de QR
-        document.querySelectorAll('.type-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Ocultar todos los inputs
-                document.querySelectorAll('.input-container').forEach(container => {
-                    container.classList.add('hidden');
-                });
-                
-                // Mostrar input correspondiente
-                currentType = this.dataset.type;
-                document.getElementById(currentType + '-input').classList.remove('hidden');
-                
-                // Generar QR inmediatamente si hay contenido
-                generateQR();
-            });
-        });
-
-        // Generar QR en tiempo real
-        function generateQR() {
-            let data = '';
-            
-            switch(currentType) {
-                case 'url':
-                    const url = document.getElementById('url').value.trim();
-                    if (!url) return clearQR();
-                    data = url.startsWith('http') ? url : 'https://' + url;
-                    break;
-                    
-                case 'text':
-                    data = document.getElementById('text').value.trim();
-                    if (!data) return clearQR();
-                    break;
-                    
-                case 'email':
-                    const email = document.getElementById('email').value.trim();
-                    if (!email) return clearQR();
-                    data = 'mailto:' + email;
-                    break;
-                    
-                case 'phone':
-                    const phone = document.getElementById('phone').value.trim();
-                    if (!phone) return clearQR();
-                    data = 'tel:' + phone;
-                    break;
-                    
-                case 'sms':
-                    const smsPhone = document.getElementById('sms-phone').value.trim();
-                    const smsText = document.getElementById('sms-text').value.trim();
-                    if (!smsPhone) return clearQR();
-                    data = 'sms:' + smsPhone + (smsText ? '?body=' + encodeURIComponent(smsText) : '');
-                    break;
-                    
-                case 'wifi':
-                    const wifiName = document.getElementById('wifi-name').value.trim();
-                    const wifiPass = document.getElementById('wifi-pass').value.trim();
-                    if (!wifiName) return clearQR();
-                    data = `WIFI:T:WPA;S:${wifiName};P:${wifiPass};H:false;;`;
-                    break;
-            }
-
-            if (data) {
-                try {
-                    const qr = qrcode(0, 'M');
-                    qr.addData(data);
-                    qr.make();
-                    
-                    const qrContainer = document.getElementById('qrcode');
-                    qrContainer.innerHTML = qr.createImgTag(8, 0);
-                    
-                    // Guardar datos para descarga
-                    qrCodeInstance = { data: data, svg: qr.createSvgTag(8, 0) };
-                    document.getElementById('download').style.visibility = 'visible';
-                } catch (e) {
-                    console.error('Error generando QR:', e);
-                }
-            }
-        }
-
-        function clearQR() {
-            document.getElementById('qrcode').innerHTML = 'Escribe algo para generar QR';
-            document.getElementById('download').style.visibility = 'hidden';
-            qrCodeInstance = null;
-        }
-
-        // Event listeners para generar QR en tiempo real
-        document.addEventListener('input', function(e) {
-            if (e.target.matches('input, textarea')) {
-                setTimeout(generateQR, 100);
-            }
-        });
-
-        // Función de descarga
-        document.getElementById('download').addEventListener('click', function() {
-            if (!qrCodeInstance) return;
-            
-            // Crear canvas temporal para generar PNG
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const img = document.querySelector('#qrcode img');
-            
-            if (img) {
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
-                
-                const link = document.createElement('a');
-                link.download = 'qr-code.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            }
-        });
-
-        // Generar QR inicial
-        generateQR();
-    </script>
-</body>
-</html>
+<main class="container">
+<section><h1>QR Generator</h1><div id="types"></div><div id="fields" class="fields"></div></section>
+<aside class="qr-panel"><div id="qrcode" class="qr-box">Enter something to generate a QR code</div><div id="error" class="error hidden"></div><div class="actions"><button id="png" class="action" disabled>Download PNG</button><button id="svg" class="action secondary" disabled>Download SVG</button></div><div class="settings"><label for="level">Error correction</label><select id="level"><option value="L">Low (L)</option><option value="M" selected>Medium (M)</option><option value="Q">Quartile (Q)</option><option value="H">High (H)</option></select></div><p class="hint">QR codes are generated locally in your browser. Some formats depend on the scanner and installed apps.</p></aside>
+</main>
+<script>
+'use strict';
+const groups={
+  'Basic':[['url','URL'],['text','Text'],['email','Email'],['phone','Phone'],['sms','SMS']],
+  'Contacts & messaging':[['vcard','vCard'],['mecard','MECARD'],['whatsapp','WhatsApp'],['telegram','Telegram'],['facetime','FaceTime']],
+  'Events & connectivity':[['calendar','Calendar event'],['geo','Geolocation'],['wifi','WiFi'],['app','App download'],['social','Social profile']],
+  'Payments':[['bitcoin','Bitcoin'],['ethereum','Ethereum'],['paypal','PayPal'],['upi','UPI'],['sepa','SEPA / GiroCode']]
+};
+// Each definition: [field id, label, input type, placeholder, optional select options]
+const schemas={
+ url:[['url','Website URL','url','https://example.com']],
+ text:[['text','Text','textarea','Your text here']],
+ email:[['email','Email address','email','hello@example.com'],['subject','Subject (optional)','text',''],['body','Message (optional)','textarea','']],
+ phone:[['phone','Phone number','tel','+56912345678']],
+ sms:[['phone','Phone number','tel','+56912345678'],['message','Message (optional)','textarea','']],
+ vcard:[['first','First name','text','Jane'],['last','Last name','text','Doe'],['org','Organization','text','Example Ltd'],['title','Job title','text','Designer'],['phone','Mobile number','tel','+56912345678'],['workphone','Work number','tel',''],['email','Email','email',''],['url','Website','url',''],['address','Street address','text',''],['city','City','text',''],['region','State / Region','text',''],['postal','Postal code','text',''],['country','Country','text',''],['note','Notes','textarea','']],
+ mecard:[['name','Full name','text','Jane Doe'],['phone','Phone','tel',''],['email','Email','email',''],['url','Website','url',''],['address','Address','text','']],
+ whatsapp:[['phone','Phone number (international, digits only)','tel','56912345678'],['message','Prefilled message (optional)','textarea','']],
+ telegram:[['username','Public username (without @)','text','example']],
+ facetime:[['contact','Phone number or Apple ID email','text','+56912345678'],['video','Call type','select','',[['video','Video'],['audio','Audio']]]],
+ calendar:[['title','Event title','text','Team meeting'],['start','Starts','datetime-local',''],['end','Ends','datetime-local',''],['location','Location (optional)','text',''],['description','Description (optional)','textarea','']],
+ geo:[['lat','Latitude','text','-33.4489'],['lon','Longitude','text','-70.6693'],['maps','Map format','select','',[['google','Google Maps URL (recommended)'],['geo','geo: URI']]]],
+ wifi:[['ssid','Network name (SSID)','text','My WiFi'],['password','Password','text',''],['security','Security','select','',[['WPA','WPA / WPA2 / WPA3 Personal'],['WEP','WEP'],['nopass','Open network']]],['hidden','Hidden network','checkbox','']],
+ app:[['platform','App store','select','',[['ios','Apple App Store'],['android','Google Play Store'],['custom','Custom app URL']]],['id','App ID / package name / URL','text','com.example.app']],
+ social:[['platform','Platform','select','',[['instagram','Instagram'],['linkedin','LinkedIn'],['tiktok','TikTok'],['youtube','YouTube'],['x','X'],['facebook','Facebook'],['custom','Other (full URL)']]],['profile','Username or full profile URL','text','example']],
+ bitcoin:[['address','Bitcoin address','text',''],['amount','Amount in BTC (optional)','text',''],['label','Label (optional)','text',''],['message','Message (optional)','text','']],
+ ethereum:[['address','Recipient address (0x...)','text',''],['chain','Chain ID (optional)','text','1'],['amount','Amount in ETH (optional)','text','']],
+ paypal:[['username','PayPal.Me username','text','example'],['amount','Amount (optional)','text',''],['currency','Currency','select','',[['USD','USD'],['EUR','EUR'],['GBP','GBP'],['AUD','AUD'],['CAD','CAD']]]],
+ upi:[['pa','UPI ID','text','name@bank'],['pn','Payee name','text',''],['am','Amount (optional)','text',''],['cu','Currency','text','INR'],['tn','Transaction note','text','']],
+ sepa:[['name','Beneficiary name','text',''],['iban','IBAN','text',''],['bic','BIC (optional)','text',''],['amount','Amount in EUR (optional)','text',''],['reference','Payment reference (optional)','text',''],['message','Remittance text (optional)','text','']]
+};
+let currentType='url', qrInstance=null, qrSvg='';
+const $=id=>document.getElementById(id);
+const values={};
+function makeElement(tag,attrs={},value=''){const el=document.createElement(tag);for(const [k,v] of Object.entries(attrs)){if(k==='className')el.className=v;else el.setAttribute(k,v)}if(value)el.textContent=value;return el}
+function renderTypes(){const root=$('types');for(const [heading,types] of Object.entries(groups)){root.append(makeElement('h2',{},heading));const bar=makeElement('div',{className:'types'});for(const [id,label] of types){const btn=makeElement('button',{type:'button',className:'type-btn'+(id===currentType?' active':''),'data-type':id},label);btn.addEventListener('click',()=>{currentType=id;renderTypes();renderFields();generateQR()});bar.append(btn)}root.append(bar)}}
+function renderFields(){const root=$('fields');root.replaceChildren();for(const [id,label,type,placeholder,options] of schemas[currentType]){const field=makeElement('div',{className:'field'+(type==='checkbox'?' check':'')});const lab=makeElement('label',{for:'field-'+id},label);let input;if(type==='textarea')input=makeElement('textarea',{id:'field-'+id,placeholder});else if(type==='select'){input=makeElement('select',{id:'field-'+id});for(const [v,t] of options)input.append(makeElement('option',{value:v},t))}else input=makeElement('input',{id:'field-'+id,type,placeholder});if(type==='checkbox'){input.checked=Boolean(values[currentType]?.[id]);field.append(input,lab)}else{if(values[currentType]?.[id]!==undefined)input.value=values[currentType][id];field.append(lab,input)}input.addEventListener('input',()=>{(values[currentType]??={})[id]=type==='checkbox'?input.checked:input.value;generateQR()});root.append(field)}const first=root.querySelector('input:not([type=checkbox]),textarea');if(first)first.focus()}
+function v(id){return String(values[currentType]?.[id]??'').trim()}
+function enc(s){return encodeURIComponent(s)}
+function url(s){if(!s)return '';return /^https?:\/\//i.test(s)?s:'https://'+s}
+function escapeV(s){return s.replace(/\\/g,'\\\\').replace(/\r?\n/g,'\\n').replace(/;/g,'\\;').replace(/,/g,'\\,')}
+function escapeWifi(s){return s.replace(/([\\;,:"\\])/g,'\\$1')}
+function escapeMecard(s){return s.replace(/([\\;,:])/g,'\\$1')}
+function utcDate(s){if(!s)return '';const d=new Date(s);if(!Number.isFinite(d.getTime()))throw Error('Invalid date');return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'')}
+function amount(s){if(!s)return '';if(!/^\d+(?:\.\d+)?$/.test(s)||Number(s)<=0)throw Error('Enter a valid positive amount');return s}
+function payload(){switch(currentType){
+ case 'url':return url(v('url'));
+ case 'text':return v('text');
+ case 'email':{if(!v('email'))return '';const p=new URLSearchParams();if(v('subject'))p.set('subject',v('subject'));if(v('body'))p.set('body',v('body'));return 'mailto:'+v('email')+(p.size?'?'+p:'')}
+ case 'phone':return v('phone')?'tel:'+v('phone'):'';
+ case 'sms':return v('phone')?'sms:'+v('phone')+(v('message')?'?body='+enc(v('message')):''):'';
+ case 'vcard':{if(!v('first')&&!v('last')&&!v('org'))return '';const a=['BEGIN:VCARD','VERSION:3.0','N:'+escapeV(v('last'))+';'+escapeV(v('first'))+';;;','FN:'+escapeV([v('first'),v('last')].filter(Boolean).join(' ')||v('org'))];const entries=[['org','ORG'],['title','TITLE'],['phone','TEL;TYPE=CELL'],['workphone','TEL;TYPE=WORK'],['email','EMAIL'],['url','URL'],['note','NOTE']];for(const [key,label] of entries)if(v(key))a.push(label+':'+escapeV(v(key)));if(['address','city','region','postal','country'].some(v))a.push('ADR;TYPE=WORK:;;'+[v('address'),v('city'),v('region'),v('postal'),v('country')].map(escapeV).join(';'));return [...a,'END:VCARD'].join('\r\n')}
+ case 'mecard':{if(!v('name'))return '';const a=['MECARD:N:'+escapeMecard(v('name'))];for(const [key,label] of [['phone','TEL'],['email','EMAIL'],['url','URL'],['address','ADR']])if(v(key))a.push(label+':'+escapeMecard(v(key)));return a.join(';')+';;'}
+ case 'whatsapp':{const p=v('phone').replace(/[^\d]/g,'');return p?'https://wa.me/'+p+(v('message')?'?text='+enc(v('message')):''):''}
+ case 'telegram':return v('username')?'https://t.me/'+enc(v('username').replace(/^@/,'')):'';
+ case 'facetime':return v('contact')?(v('video')==='audio'?'facetime-audio:':'facetime:')+v('contact'):'';
+ case 'calendar':{if(!v('title')||!v('start')||!v('end'))return '';if(new Date(v('end'))<=new Date(v('start')))throw Error('End must be after start');const now=utcDate(new Date().toISOString());const a=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//QR Generator//EN','BEGIN:VEVENT','UID:'+crypto.randomUUID()+'@qr.local','DTSTAMP:'+now,'DTSTART:'+utcDate(v('start')),'DTEND:'+utcDate(v('end')),'SUMMARY:'+escapeV(v('title'))];if(v('location'))a.push('LOCATION:'+escapeV(v('location')));if(v('description'))a.push('DESCRIPTION:'+escapeV(v('description')));return [...a,'END:VEVENT','END:VCALENDAR'].join('\r\n')}
+ case 'geo':{if(!v('lat')||!v('lon'))return '';const lat=Number(v('lat')),lon=Number(v('lon'));if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)throw Error('Invalid coordinates');return v('maps')==='geo'?`geo:${lat},${lon}`:`https://www.google.com/maps/search/?api=1&query=${lat}%2C${lon}`}
+ case 'wifi':return v('ssid')?`WIFI:T:${v('security')||'WPA'};S:${escapeWifi(v('ssid'))};P:${v('security')==='nopass'?'':escapeWifi(v('password'))};H:${values.wifi?.hidden?'true':'false'};;`:'';
+ case 'app':{const id=v('id');if(!id)return '';switch(v('platform')){case 'ios':return /^\d+$/.test(id)?'https://apps.apple.com/app/id'+id: url(id);case 'android':return 'https://play.google.com/store/apps/details?id='+enc(id);default:return url(id)}}
+ case 'social':{const p=v('profile');if(!p)return '';if(/^https?:\/\//i.test(p))return p;const x=p.replace(/^@/,'');const base={instagram:'https://instagram.com/',linkedin:'https://www.linkedin.com/in/',tiktok:'https://www.tiktok.com/@',youtube:'https://www.youtube.com/@',x:'https://x.com/',facebook:'https://www.facebook.com/'};return base[v('platform')]?base[v('platform')]+enc(x):url(p)}
+ case 'bitcoin':{if(!v('address'))return '';const q=new URLSearchParams();if(v('amount'))q.set('amount',amount(v('amount')));if(v('label'))q.set('label',v('label'));if(v('message'))q.set('message',v('message'));return 'bitcoin:'+v('address')+(q.size?'?'+q:'')}
+ case 'ethereum':{if(!v('address'))return '';if(!/^0x[0-9a-fA-F]{40}$/.test(v('address')))throw Error('Enter a valid Ethereum address');const chain=v('chain');if(chain&&!/^\d+$/.test(chain))throw Error('Invalid chain ID');let out='ethereum:'+v('address')+(chain?'@'+chain:'');if(v('amount')){const a=amount(v('amount'));const [whole,frac='']=a.split('.');if(frac.length>18)throw Error('ETH supports at most 18 decimals');const wei=BigInt(whole)*10n**18n+BigInt((frac+'0'.repeat(18)).slice(0,18));out+='?value='+wei.toString()}return out}
+ case 'paypal':return v('username')?'https://paypal.me/'+enc(v('username'))+(v('amount')?'/'+amount(v('amount'))+(v('currency')||'USD'):''):'';
+ case 'upi':{if(!v('pa'))return '';const q=new URLSearchParams({pa:v('pa'),cu:v('cu')||'INR'});if(v('pn'))q.set('pn',v('pn'));if(v('am'))q.set('am',amount(v('am')));if(v('tn'))q.set('tn',v('tn'));return 'upi://pay?'+q}
+ case 'sepa':{if(!v('name')||!v('iban'))return '';const amt=v('amount')?'EUR'+amount(v('amount')):'';if(v('reference')&&v('message'))throw Error('Use either reference or remittance text, not both');const lines=['BCD','002','1','SCT',v('bic'),v('name'),v('iban').replace(/\s/g,''),amt,'',v('reference'),v('message'),''];return lines.join('\n')}
+ default:return '';
+}}
+function clearQR(msg='Enter something to generate a QR code'){qrInstance=null;qrSvg='';$('qrcode').textContent=msg;$('png').disabled=true;$('svg').disabled=true}
+function generateQR(){const err=$('error');err.classList.add('hidden');err.textContent='';try{const data=payload();if(!data){clearQR();return}if(typeof qrcode!=='function')throw Error('QR library failed to load. Check your connection.');const qr=qrcode(0,$('level').value);qr.addData(data,'Byte');qr.make();const size=qr.getModuleCount(),margin=4,scale=Math.max(4,Math.floor(1024/(size+margin*2)));qrSvg=qr.createSvgTag(scale,margin);qrInstance=qr;const img=new Image();img.alt='Generated QR code';img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(qrSvg);$('qrcode').replaceChildren(img);$('png').disabled=false;$('svg').disabled=false}catch(e){clearQR('Unable to generate QR');err.textContent=e.message||String(e);err.classList.remove('hidden')}}
+function download(blob,filename){const a=document.createElement('a'),u=URL.createObjectURL(blob);a.href=u;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+$('svg').addEventListener('click',()=>{if(qrSvg)download(new Blob([qrSvg],{type:'image/svg+xml'}),'qr-code.svg')});
+$('png').addEventListener('click',()=>{if(!qrInstance)return;const qr=qrInstance,n=qr.getModuleCount(),margin=4,scale=Math.max(1,Math.floor(1024/(n+margin*2))),size=(n+margin*2)*scale;const canvas=document.createElement('canvas');canvas.width=canvas.height=size;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,size,size);ctx.fillStyle='#000';for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(qr.isDark(r,c))ctx.fillRect((c+margin)*scale,(r+margin)*scale,scale,scale);canvas.toBlob(blob=>{if(blob)download(blob,'qr-code.png')},'image/png')});
+$('level').addEventListener('change',generateQR);
+renderTypes();renderFields();generateQR();
+</script>
+</body></html>
